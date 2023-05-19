@@ -1,0 +1,30 @@
+---
+title: "Livestock Sector Events - 2023"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+<base target="_blank">
+
+A Consolidated list of all major conferences, workshops and events relating to livestock, in 2023 (Updated Every 2 Weeks)
+
+Note: This list only only includes those with officially announced dates and location.
+
+```{r message=FALSE, echo=FALSE}
+library(googlesheets4)
+library(DT)
+
+events_sheet <- read_sheet("https://docs.google.com/spreadsheets/d/1BUnggasQc_PFj61aICrt0CkzbWuq8Cdyesb1NnI1PqY/edit?resourcekey#gid=1339492149")
+
+events <- events_sheet %>% 
+  dplyr::select(-c(Timestamp, `Contributor email (Just incase we need to follow up)`)) %>% 
+  dplyr::mutate(`Start Date` = as.Date(`Start Date`, format = "%d/%m/%Y"), `End Date` = as.Date(`End Date`, format = "%d/%m/%Y"))
+
+events %>% 
+  datatable(., caption = "Table", filter = "top")
+```
+
+<center> [Submit a new event](https://docs.google.com/forms/d/e/1FAIpQLScydZrVGjUxzNw8nYbHr92SuuDM2jNAHlBgkAf4aYd5zgPErA/viewform)</center>
